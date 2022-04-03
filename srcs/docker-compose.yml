@@ -1,0 +1,97 @@
+version: '3.9'
+services:
+
+    nginx:
+      build: requirements/nginx/
+#      image: nginx:v1.20-alpine
+      container_name: nginx
+      ports:
+        - "127.0.0.1:80:80"
+        - "127.0.0.1:443:443"
+      volumes:
+        - "/home/chilee/website:/var/www/html:delegated"
+      depends_on:
+       - wordpress
+      networks:
+       - chilee_network
+      restart: always
+
+    wordpress:
+      build: requirements/wordpress/
+      container_name: wordpress
+#     image: wordpress:php7.4-fpm
+      ports:
+        - "9000:9000"
+      volumes:
+        - "/home/chilee/website:/var/www/html:delegated"
+      depends_on:
+        - mariadb
+        - redis
+      networks:
+        - chilee_network
+      restart: always
+      environment:
+        MYSQL_HOST:            ${MYSQL_HOST}
+        WP_DATABASE_NAME:      ${WP_DATABASE_NAME}
+        WP_DATABASE_USER:      ${WP_DATABASE_USER}
+        WP_DATABASE_PASSWORD:  ${WP_DATABASE_PASSWORD}
+        DOMAIN_NAME:           ${DOMAIN_NAME}
+        WP_TITLE:              ${WP_TITLE}
+        WP_ADMIN_USER:         ${WP_ADMIN_USER}
+        WP_ADMIN_PASSWORD:     ${WP_ADMIN_PASSWORD}
+        WP_ADMIN_EMAIL:        ${WP_ADMIN_EMAIL}
+        WP_USER:               ${WP_USER}
+        WP_PASSWORD:           ${WP_PASSWORD}
+        WP_EMAIL:              ${WP_EMAIL}
+        REDIS_HOST:            ${REDIS_HOST}
+        REDIS_PASSWORD:        ${REDIS_PASSWORD}
+
+    mariadb:
+      build: requirements/mariadb/
+#      image: mariadb:10.2     
+      container_name: mariadb
+      ports:
+        - "3306:3306"
+      volumes:
+       - "/home/chilee/mariadb:/var/lib/mysql"
+      networks:
+        - chilee_network
+      restart: always
+      environment:
+        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        MYSQL_DATABASE:      ${WP_DATABASE_NAME}
+        MYSQL_USER:          ${WP_DATABASE_USER}
+        MYSQL_PASSWORD:      ${WP_DATABASE_PASSWORD}
+
+    redis:
+      build: requirements/bonus/redis
+#     image: redis6.0-alpine3.15
+      container_name: redis
+      ports:
+        - "6379:6379"
+      networks:
+        - chilee_network
+      restart: always
+      environment:
+        REDIS_PASSWORD: ${REDIS_PASSWORD}
+
+    ftp-server:
+      build: requirements/bonus/ftp-server
+#      image: vsftpd:3.0
+      container_name: ftp-server
+      ports: 
+        - "21:21"
+        - "21100-21110:21100-21110"
+      volumes:
+       - "/home/chilee/website:/var/www/html"
+      networks:
+        - chilee_network
+      restart: always
+      environment:
+        FTP_USER: ${FTP_USER}
+        FTP_PASSWORD: ${FTP_PASSWORD}
+  
+networks:
+  chilee_network:
+
+
