@@ -3,13 +3,12 @@ services:
 
     nginx:
       build: requirements/nginx/
-      image: nginx:1.20-alpine
+      image: nginx:stable-alpine
       container_name: nginx
       ports:
-        - "127.0.0.1:80:80"
-        - "127.0.0.1:443:443"
+        - "443:443"
       volumes:
-        - "/home/chilee/website:/var/www/html:delegated"
+       - "/home/chilee/data/website:/var/www/html"
       depends_on:
        - wordpress
       networks:
@@ -18,12 +17,12 @@ services:
 
     wordpress:
       build: requirements/wordpress/
-      container_name: wordpress
       image: wordpress:5.7
+      container_name: wordpress
       ports:
         - "9000:9000"
       volumes:
-        - "/home/chilee/website:/var/www/html:delegated"
+       - "/home/chilee/data/website:/var/www/html"
       depends_on:
         - mariadb
         - redis
@@ -31,41 +30,41 @@ services:
         - chilee_network
       restart: always
       environment:
-        MYSQL_HOST:            ${MYSQL_HOST}
-        WP_DATABASE_NAME:      ${WP_DATABASE_NAME}
-        WP_DATABASE_USER:      ${WP_DATABASE_USER}
-        WP_DATABASE_PASSWORD:  ${WP_DATABASE_PASSWORD}
-        DOMAIN_NAME:           ${DOMAIN_NAME}
-        WP_TITLE:              ${WP_TITLE}
-        WP_ADMIN_USER:         ${WP_ADMIN_USER}
-        WP_ADMIN_PASSWORD:     ${WP_ADMIN_PASSWORD}
-        WP_ADMIN_EMAIL:        ${WP_ADMIN_EMAIL}
-        WP_USER:               ${WP_USER}
-        WP_PASSWORD:           ${WP_PASSWORD}
-        WP_EMAIL:              ${WP_EMAIL}
-        REDIS_HOST:            ${REDIS_HOST}
-        REDIS_PASSWORD:        ${REDIS_PASSWORD}
+        MYSQL_HOST:       ${MYSQL_HOST}
+        WP_DATABASE_NAME: ${WP_DATABASE_NAME}
+        WP_DATABASE_USR:  ${WP_DATABASE_USR}
+        WP_DATABASE_PWD:  ${WP_DATABASE_PWD}
+        DOMAIN_NAME:      ${DOMAIN_NAME}
+        WP_TITLE:         ${WP_TITLE}
+        WP_ADMIN_USR:     ${WP_ADMIN_USR}
+        WP_ADMIN_PWD:     ${WP_ADMIN_PWD}
+        WP_ADMIN_EMAIL:   ${WP_ADMIN_EMAIL}
+        WP_USR:           ${WP_USR}
+        WP_PWD:           ${WP_PWD}
+        WP_EMAIL:         ${WP_EMAIL}
+        REDIS_HOST:       ${REDIS_HOST}
+        REDIS_PWD:        ${REDIS_PWD}
 
     mariadb:
       build: requirements/mariadb/
-      image: mariadb:10.6     
+      image: mariadb:10.2
       container_name: mariadb
       ports:
         - "3306:3306"
       volumes:
-       - "/home/chilee/mariadb:/var/lib/mysql"
+       - "/home/chilee/data/mariadb:/var/lib/mysql"
       networks:
         - chilee_network
       restart: always
       environment:
-        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-        MYSQL_DATABASE:      ${WP_DATABASE_NAME}
-        MYSQL_USER:          ${WP_DATABASE_USER}
-        MYSQL_PASSWORD:      ${WP_DATABASE_PASSWORD}
+        MYSQL_ROOT_PWD:   ${MYSQL_ROOT_PWD}
+        WP_DATABASE_NAME: ${WP_DATABASE_NAME}
+        WP_DATABASE_USR:  ${WP_DATABASE_USR}
+        WP_DATABASE_PWD:  ${WP_DATABASE_PWD}
 
     redis:
       build: requirements/bonus/redis
-      image: redis6.0
+      image: redis:v6.0
       container_name: redis
       ports:
         - "6379:6379"
@@ -73,23 +72,23 @@ services:
         - chilee_network
       restart: always
       environment:
-        REDIS_PASSWORD: ${REDIS_PASSWORD}
+        REDIS_PWD: ${REDIS_PWD}
 
     ftp-server:
       build: requirements/bonus/ftp-server
-      image: vsftpd:3.0
+      image: vsftpd
       container_name: ftp-server
       ports: 
         - "21:21"
         - "21100-21110:21100-21110"
       volumes:
-       - "/home/chilee/website:/var/www/html"
+       - "/home/chilee/data/website:/var/www/html"
       networks:
         - chilee_network
       restart: always
       environment:
-        FTP_USER: ${FTP_USER}
-        FTP_PASSWORD: ${FTP_PASSWORD}
+        FTP_USR: ${FTP_USR}
+        FTP_PWD: ${FTP_PWD}
   
 networks:
   chilee_network:

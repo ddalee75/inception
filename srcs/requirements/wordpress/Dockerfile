@@ -1,4 +1,4 @@
-FROM alpine:3.15
+FROM alpine:3.13
 
 RUN	apk update && apk upgrade && apk add --no-cache \
 		wget				\
@@ -65,7 +65,9 @@ COPY conf/index.html /tmp/index.html
 # install wordpress
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x wp-cli.phar
-RUN cp wp-cli.phar /usr/local/bin/wp
+RUN cp wp-cli.phar /usr/bin/wp
 
 WORKDIR /var/www/html/wordpress
+
+COPY tools/configure.sh /tmp/configure.sh
 ENTRYPOINT [ "sh", "/tmp/configure.sh" ]

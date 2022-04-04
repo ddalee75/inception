@@ -4,8 +4,8 @@ NAME = Inception
 all: $(NAME)
 
 $(NAME):
-	mkdir -p /home/chilee/website
-	mkdir -p /home/chilee/mariadb
+	mkdir -p /home/chilee/data/website
+	mkdir -p /home/chilee/data/mariadb
 	docker-compose -f ${SRC} up --build -d 
 
 clean:
@@ -17,9 +17,7 @@ fclean: clean
 
 prune: fclean
 	docker image prune -a
-	docker system prune
-	sudo rm -rf /home/chilee/website
-	sudo rm -rf /home/chilee/website
+	sudo rm -rf /home/chilee/data
 
 re: fclean all
 
