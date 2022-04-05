@@ -8,7 +8,7 @@ services:
       ports:
         - "443:443"
       volumes:
-       - "/home/chilee/data/website:/var/www/html"
+       - website:/var/www/html
       depends_on:
        - wordpress
       networks:
@@ -22,7 +22,7 @@ services:
       ports:
         - "9000:9000"
       volumes:
-       - "/home/chilee/data/website:/var/www/html"
+       - website:/var/www/html
       depends_on:
         - mariadb
         - redis
@@ -52,7 +52,7 @@ services:
       ports:
         - "3306:3306"
       volumes:
-       - "/home/chilee/data/mariadb:/var/lib/mysql"
+       - mariadb:/var/lib/mysql
       networks:
         - chilee_network
       restart: always
@@ -64,25 +64,27 @@ services:
 
     redis:
       build: requirements/bonus/redis
-      image: redis:v6.0
+      image: redis:6.0-alpine
       container_name: redis
       ports:
         - "6379:6379"
+      volumes:
+        - data_2:/data
       networks:
         - chilee_network
       restart: always
       environment:
         REDIS_PWD: ${REDIS_PWD}
 
-    ftp-server:
-      build: requirements/bonus/ftp-server
-      image: vsftpd
-      container_name: ftp-server
+    ftps:
+      build: requirements/bonus/ftps
+      image: ftps
+      container_name: ftps
       ports: 
         - "21:21"
         - "21100-21110:21100-21110"
       volumes:
-       - "/home/chilee/data/website:/var/www/html"
+       - website:/var/www/html
       networks:
         - chilee_network
       restart: always
@@ -93,4 +95,22 @@ services:
 networks:
   chilee_network:
 
+volumes:
+  website:
+    driver_opts:
+      type: none
+      device: /home/chilee/data/website
+      o: bind
+
+  mariadb:
+    driver_opts:
+      type: none
+      device: /home/chilee/data/mariadb
+      o: bind
+
+  data_2:
+    driver_opts:
+      type: none
+      device: /home/chilee/data/data_2
+      o: bind
 
