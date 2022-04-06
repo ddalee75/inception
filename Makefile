@@ -19,6 +19,9 @@ fclean: clean
 prune: fclean
 	docker image prune -a
 	sudo rm -rf /home/chilee/data
+	docker volume rm srcs_data_2
+	docker volume rm srcs_mariadb
+	docker volume rm srcs_website
 
 re: fclean all
 

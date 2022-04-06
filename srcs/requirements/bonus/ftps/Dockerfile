@@ -1,13 +1,10 @@
 FROM alpine:3.13
 
-# Update System and Install Tools
-RUN apk add --update vsftpd openssl openssh
+RUN	apk update && apk upgrade && apk add --no-cache \
+        vsftpd
 
-# COPY Files to container
-COPY conf/vsftpd.conf /etc/vsftpd/vsftpd.conf
-COPY tools/run.sh /
+COPY	conf/vsftpd.conf /tmp/vsftpd.conf
 
-# make 'run.sh' executable
-RUN chmod +x ./run.sh
+COPY	tools/configure.sh /tmp/configure.sh
 
-ENTRYPOINT [ "/run.sh" ]
+ENTRYPOINT ["sh", "/tmp/configure.sh"]

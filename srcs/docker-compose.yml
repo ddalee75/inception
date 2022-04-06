@@ -78,7 +78,7 @@ services:
 
     ftps:
       build: requirements/bonus/ftps
-      image: ftps
+      image: ftps:3  
       container_name: ftps
       ports: 
         - "21:21"
