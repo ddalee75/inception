@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 services:
 
     nginx:
@@ -16,7 +16,6 @@ services:
 
     wordpress:
       build: requirements/wordpress/
-      image: wordpress:5.7
       container_name: wordpress
       ports:
         - "9000:9000"
