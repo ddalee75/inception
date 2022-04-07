@@ -19,6 +19,7 @@ if [ ! -f "/var/www/html/index.html" ]; then
     wp core install --url=$DOMAIN_NAME/wordpress --title=$WP_TITLE --admin_user=$WP_ADMIN_USR --admin_password=$WP_ADMIN_PWD --admin_email=$WP_ADMIN_EMAIL --skip-email --allow-root
     wp user create $WP_USR $WP_EMAIL --role=author --user_pass=$WP_PWD --allow-root
     wp theme install inspiro --activate --allow-root
+    wp theme update inspiro --allow-root
 
     # enable redis cache
     sed -i "40i define( 'WP_REDIS_HOST', '$REDIS_HOST' );"      wp-config.php

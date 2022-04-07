@@ -3,7 +3,6 @@ services:
 
     nginx:
       build: requirements/nginx/
-      image: nginx:stable-alpine
       container_name: nginx
       ports:
         - "443:443"
@@ -47,7 +46,6 @@ services:
 
     mariadb:
       build: requirements/mariadb/
-      image: mariadb:10.2
       container_name: mariadb
       ports:
         - "3306:3306"
@@ -64,7 +62,6 @@ services:
 
     redis:
       build: requirements/bonus/redis
-      image: redis:6.0-alpine
       container_name: redis
       ports:
         - "6379:6379"
@@ -78,7 +75,6 @@ services:
 
     ftps:
       build: requirements/bonus/ftps
-      image: ftps:3  
       container_name: ftps
       ports: 
         - "21:21"
@@ -91,7 +87,19 @@ services:
       environment:
         FTP_USR: ${FTP_USR}
         FTP_PWD: ${FTP_PWD}
-  
+
+    portainer:
+      image: portainer/portainer-ce
+      container_name: portainer
+      ports:
+        - "8000:8000"
+        - "9443:9443"
+      restart: always
+      security_opt:
+        - no-new-privileges:true
+      volumes:
+        - /etc/localtime:/etc/localtime:ro
+        - /var/run/docker.sock:/var/run/docker.sock:ro
 networks:
   chilee_network:
 
