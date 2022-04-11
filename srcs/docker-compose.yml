@@ -17,8 +17,8 @@ services:
     wordpress:
       build: requirements/wordpress/
       container_name: wordpress
-      ports:
-        - "9000:9000"
+      expose:
+        - "9000"
       volumes:
        - website:/var/www/html
       depends_on:
@@ -46,8 +46,8 @@ services:
     mariadb:
       build: requirements/mariadb/
       container_name: mariadb
-      ports:
-        - "3306:3306"
+      expose:
+        - "3306"
       volumes:
        - mariadb:/var/lib/mysql
       networks:
@@ -62,8 +62,8 @@ services:
     redis:
       build: requirements/bonus/redis
       container_name: redis
-      ports:
-        - "6379:6379"
+      expose:
+        - "6379"
       volumes:
         - data_2:/data
       networks:
@@ -99,6 +99,7 @@ services:
       volumes:
         - /etc/localtime:/etc/localtime:ro
         - /var/run/docker.sock:/var/run/docker.sock:ro
+
 networks:
   chilee_network:
 
