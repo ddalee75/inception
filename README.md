@@ -21,9 +21,12 @@ Jai travialle directement en root, donc dans mon Makefile, je nai pas mis "sudo"
 si vous travaillez en User normal, n oubliez pas de rajouter sudo devant les commandes dans le Makefile.
   ex: sudo mkdir -p /home/tonlogin/data/website
 
-Comme vous travaillez sur ubuntu, votre version de docker compose est 1.25
+Comme vous travaillez sur ubuntu, votre version de docker compose est 1.25.
+
 cette version de docker compose ne cherche pas automatiquement le fichier .env
+
 solution:
+
 1. dans makefile 
    il faut ajouter un variable 
    ENV_FILE = ./src/.env
