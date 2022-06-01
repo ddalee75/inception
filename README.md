@@ -11,7 +11,7 @@ From alphine:3.13 il faut le corriger par -> From alphine ou From alphine:3.15 (
 
 pour le Dockerfile de wordpress
 
-From alphine:3.13 (fonctionne) par contre From alpine(ne fonctionne pas) 
+From alphine:3.13 (fonctionne) [ From alpine(ne fonctionne pas) ]
 
 pour le Dockerfile de mariadb 
 
