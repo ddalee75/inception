@@ -12,7 +12,7 @@ RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
         -subj "/C=Fr/ST=IledeFrance/L=Paris/O=42 School/CN=chilee.42.fr"
 
 # nginx config
-
+RUN mkdir -p /run/nginx/
 COPY conf/nginx.conf /etc/nginx/http.d/default.conf
 	
 # Start nginx
