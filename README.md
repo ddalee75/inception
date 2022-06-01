@@ -31,6 +31,7 @@ solution:
    il faut ajouter a chaque service ces deux lignes : 
      
      env_file:
+     
         -.env
 
 
