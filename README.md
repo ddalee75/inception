@@ -21,11 +21,11 @@ Comme vous travaillez sur ubuntu, votre version de docker compose est 1.25
 cette version de docker compose ne cherche pas automatiquement le fichier .env
 solution:
 1. dans makefile 
-  il faut ajouter un variable 
-  ENV_FILE = ./src/.env
-  
-  dans la ligne pour faire docker-compose up
-  => docker compose -f $(SRC) --env-file $(ENV_FILE) up --build -d
+   il faut ajouter un variable 
+   ENV_FILE = ./src/.env
+   
+   dans la ligne pour faire docker-compose up
+   => docker compose -f $(SRC) --env-file $(ENV_FILE) up --build -d
 
 2. dans le file docker-compose.yml
   il faut ajouter a chaque service cette ligne :
