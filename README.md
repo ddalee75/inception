@@ -28,6 +28,8 @@ solution:
    => docker compose -f $(SRC) --env-file $(ENV_FILE) up --build -d
 
 2. dans le file docker-compose.yml
-  il faut ajouter a chaque service cette ligne :
-  env_file:
-     - .env
+   il faut ajouter a chaque service cette ligne :
+   env_file:
+   - .env
+
+
