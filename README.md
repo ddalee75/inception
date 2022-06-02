@@ -1,21 +1,21 @@
 # inception
 Salut les amis qui lissent mes codes pour inception
-ces codes fonctionnent tres bien sur un VM Alphine , et la version de docker compose 1.29
+ces codes fonctionnent tres bien sur un VM Alpine , et la version de docker compose 1.29
 
 si vous travaillez dans un VM ubuntu :
 
 
 pour le Dockerfile de nginx:
 
-From alphine:3.13 il faut le corriger par -> From alphine ou From alphine:3.15 (3.13 ne fonctionne pas sur ubuntu, le container sera cree mais ne monte pas)
+From alpine:3.13 il faut le corriger par -> From alphine ou From alphine:3.15 (3.13 ne fonctionne pas sur ubuntu, le container sera cree mais ne monte pas)
 
 pour le Dockerfile de wordpress
 
-From alphine:3.13 (fonctionne) [ From alpine(ne fonctionne pas) ]
+From alpine:3.13 (fonctionne) [ From alpine(ne fonctionne pas) ]
 
 pour le Dockerfile de mariadb 
 
-il faut utiliser-> From alphine
+il faut utiliser-> From alpine
 
 Jai travialle directement en root, donc dans mon Makefile, je nai pas mis "sudo" devant les commandes.
 si vous travaillez en User normal, n oubliez pas de rajouter sudo devant les commandes dans le Makefile.
